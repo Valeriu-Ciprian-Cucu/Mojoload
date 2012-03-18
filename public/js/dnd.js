@@ -10,16 +10,14 @@ function uploadAsync(elem, url) {
 
 		var file = e.dataTransfer.files[0],
 		xhr = new XMLHttpRequest(),
-		name = file.name || file.fileName;
+		name = file.name || file.fileName,
+		size = file.size || file.fileSize;
 		console.log(file);
 
 		xhr.open("POST", url + name, true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.setRequestHeader("X-File-Name", file.fileName);
-		xhr.setRequestHeader("X-File-Size", file.fileSize);
-		xhr.setRequestHeader("X-File-Type", file.type);
-		xhr.setRequestHeader("Content-Length", file.size);
-		xhr.setRequestHeader("Connection", "close");
+		xhr.setRequestHeader("X-File-Name", name);
+		xhr.setRequestHeader("X-File-Size", size);
 		xhr.send(file);
   }
 
