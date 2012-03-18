@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
+use Data::Dumper;
 
 use strict;
 use warnings;
