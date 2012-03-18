@@ -1,0 +1,4 @@
+Small file uploading app making use of the HTML5 drag and drop features and asynchronous file uploading
+
+Install Dancer framework (cpan Dancer)
+Run the app ./bin/app.pl

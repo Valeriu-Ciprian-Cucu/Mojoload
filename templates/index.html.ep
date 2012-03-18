@@ -1,0 +1,11 @@
+<script type="text/javascript" src="/js/dnd.js"></script>
+<div id="dropzone"></div>
+<script type="text/javascript">
+	uploadAsync('dropzone', '/');
+	with (document.getElementById('dropzone').style) {
+		width = "320px";
+		height = "240px";
+		border = "solid 10px brown";
+	}
+</script>
+
