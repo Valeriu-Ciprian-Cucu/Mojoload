@@ -10,8 +10,8 @@ function uploadAsync(elem, url) {
 			var file = e.dataTransfer.files[0],
 				xhr = new XMLHttpRequest(),
 				name = file.name || file.fileName;
-
 			xhr.open("POST", url + name, true);
+			xhr.setRequestHeader("X-File-Name", name);
 			xhr.send(file);
 		}
 
