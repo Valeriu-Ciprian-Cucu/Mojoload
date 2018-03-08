@@ -17,5 +17,5 @@ post '/:file' => sub {
 	$asset->add_chunk($body);
 	$asset->move_to($filename);
 
-	$self->render_text('ok');
+	$self->render(text => 'ok');
 };
