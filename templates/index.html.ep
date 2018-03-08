@@ -1,11 +1,16 @@
+% layout 'main';
+<div id="dropzone">
+	<strong>Drop files here</strong>
+	<br>or
+	<br>
+		<label>
+			<span class="choose-files">Choose files</span>
+			<input type="file" name="files[]" multiple="multiple" title="Click to open the file browser" accept="image/*" id="input-file">
+		</label>
+</div>
+<div id="result"></div>
 <script type="text/javascript" src="/js/dnd.js"></script>
-<div id="dropzone"></div>
 <script type="text/javascript">
 	uploadAsync('dropzone', '/');
-	with (document.getElementById('dropzone').style) {
-		width = "320px";
-		height = "240px";
-		border = "solid 10px brown";
-	}
+	afterChooseFiles('input-file');
 </script>
-

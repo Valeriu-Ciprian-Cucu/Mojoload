@@ -1,9 +1,39 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title><%= title %></title>
-	</head>
-	<body>
-		<%= content %>
-	</body>
+    <head>
+        <title><%= title %></title>
+        <style>
+            #dropzone {
+                border: 5px dashed navy;
+                padding: 5em 0;
+                text-align: center;
+            }
+
+            #dropzone input[type=file] {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+
+            .choose-files {
+                display: block;
+                margin: 1em;
+                border: 1px solid navy;
+                border-radius: .5em;
+                padding: .5em;
+                background: #def;
+                cursor: pointer
+            }
+
+            .choose-files:hover {
+                background: #eef;
+            }
+        </style>
+    </head>
+    <body>
+        <%= content %>
+    </body>
 </html>
