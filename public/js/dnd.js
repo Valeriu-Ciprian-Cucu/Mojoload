@@ -15,7 +15,7 @@ function uploadAsync(elem, url) {
 			size = file.size || file.fileSize;
 			console.log(file);
 
-			xhr.open("POST", url + name, true);
+			xhr.open("POST", name, true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.setRequestHeader("X-File-Name", name);
 			xhr.setRequestHeader("X-File-Size", size);
@@ -28,3 +28,35 @@ function uploadAsync(elem, url) {
 	fileForm.addEventListener('dragover', supressEvent, false);
 	fileForm.addEventListener('drop', handleUpload, false);
 }
+
+function afterChooseFiles(elem) {
+	var
+		field = document.getElementById(elem),
+
+		showFiles = function(e) {
+			console.log("files chosen by click");
+			console.log(e);
+			e.preventDefault();
+			e.stopPropagation();
+
+			for (i = 0; i < e.srcElement.files.length; i++) {
+				var file = e.srcElement.files[i],
+				xhr = new XMLHttpRequest(),
+				name = file.name || file.fileName,
+				size = file.size || file.fileSize;
+				console.log(file);
+
+				xhr.open("POST", name, true);
+				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xhr.setRequestHeader("X-File-Name", name);
+				xhr.setRequestHeader("X-File-Size", size);
+				xhr.send(file);
+			}
+
+
+		}
+	;
+
+	field.addEventListener('change', showFiles, false);
+}
+
