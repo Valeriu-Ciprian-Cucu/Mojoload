@@ -10,6 +10,18 @@ function sendFiles(files) {
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.setRequestHeader("X-File-Name", name);
 		xhr.setRequestHeader("X-File-Size", size);
+
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var response = JSON.parse(this.response);
+				console.log(response);
+				if (response.status == 'ok')
+					document.getElementById("result").innerHTML += response.filename + ' <img src="/upload/' + response.filename + '" alt="Uploaded image">';
+				else
+					document.getElementById("result").innerHTML += response.status;
+		   }
+		};
+
 		xhr.send(file);
 	}
 }

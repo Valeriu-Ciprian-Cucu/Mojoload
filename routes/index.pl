@@ -26,5 +26,10 @@ post '/:file' => sub {
 	$asset->add_chunk($body);
 	$asset->move_to("$UPLOAD_DIR/$unique_filename");
 
-	$self->render('text' => 'ok');
+	return $self->render(
+		'json' => {
+			'status' 	=> 'ok',
+			'filename' 	=> $unique_filename,
+		}
+	);
 };
