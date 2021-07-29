@@ -10,12 +10,26 @@ post '/:file' => sub {
 
 	my $headers = $self->req->headers;
 	my $body = $self->req->body;
-	my $filename = $UPLOAD_DIR ."/". $headers->header("x-file-name");
-	warn "[!] Uploading file to $filename";
+
+	my $filename = $headers->header('x-file-name');
+	my $unique_filename = $filename;
+
+	my $i = 0;
+	while ( -f "$UPLOAD_DIR/$unique_filename") {
+		$unique_filename = $filename;
+		$unique_filename =~ s/\./sprintf('-%x.', $i++)/e;
+	}
+
+	warn "Uploading file to $unique_filename";
 
 	my $asset = Mojo::Asset::File->new;
 	$asset->add_chunk($body);
-	$asset->move_to($filename);
+	$asset->move_to("$UPLOAD_DIR/$unique_filename");
 
-	$self->render_text('ok');
+	return $self->render(
+		'json' => {
+			'status' 	=> 'ok',
+			'filename' 	=> $unique_filename,
+		}
+	);
 };

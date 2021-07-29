@@ -1,3 +1,31 @@
+function sendFiles(files) {
+	for (i = 0; i < files.files.length; i++) {
+		var file = files.files[i],
+		xhr = new XMLHttpRequest(),
+		name = file.name || file.fileName,
+		size = file.size || file.fileSize;
+		console.log(file);
+
+		xhr.open("POST", name, true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.setRequestHeader("X-File-Name", name);
+		xhr.setRequestHeader("X-File-Size", size);
+
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var response = JSON.parse(this.response);
+				console.log(response);
+				if (response.status == 'ok')
+					document.getElementById("result").innerHTML += response.filename + ' <img src="/upload/' + response.filename + '" alt="Uploaded image">';
+				else
+					document.getElementById("result").innerHTML += response.status;
+		   }
+		};
+
+		xhr.send(file);
+	}
+}
+
 function uploadAsync(elem, url) {
   var fileForm = document.getElementById(elem),
 	supressEvent = function (e) {
@@ -7,22 +35,28 @@ function uploadAsync(elem, url) {
 	handleUpload = function (e) {
 		console.log("file upload handled");
 		supressEvent(e);
-
-		var file = e.dataTransfer.files[0],
-		xhr = new XMLHttpRequest(),
-		name = file.name || file.fileName,
-		size = file.size || file.fileSize;
-		console.log(file);
-
-		xhr.open("POST", url + name, true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.setRequestHeader("X-File-Name", name);
-		xhr.setRequestHeader("X-File-Size", size);
-		xhr.send(file);
-  }
+		sendFiles(e.dataTransfer);
+	}
 
 	fileForm.addEventListener('dragenter', supressEvent, false);
 	fileForm.addEventListener('dragexit', supressEvent, false);
 	fileForm.addEventListener('dragover', supressEvent, false);
 	fileForm.addEventListener('drop', handleUpload, false);
 }
+
+function afterChooseFiles(elem) {
+	var
+		field = document.getElementById(elem),
+
+		showFiles = function(e) {
+			console.log("files chosen by click");
+			console.log(e);
+			e.preventDefault();
+			e.stopPropagation();
+			sendFiles(e.srcElement);
+		}
+	;
+
+	field.addEventListener('change', showFiles, false);
+}
+
